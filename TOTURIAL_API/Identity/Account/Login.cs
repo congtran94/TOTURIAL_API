@@ -7,5 +7,6 @@ namespace TOTURIAL_API.Identity.Account
 {
     public class Login
     {
+        
     }
 }
