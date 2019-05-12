@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GOSDataModel.Models
+namespace TOTURIAL_API.Models
 {
     public partial class User
     {

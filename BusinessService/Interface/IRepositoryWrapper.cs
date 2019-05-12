@@ -8,6 +8,7 @@ namespace BusinessService.Interface
     {
         IProductService ProductService { get; }
         IOrderService OrderService { get; }
+        IAccountService AccountService { get; }
         void Save();
     }
 }

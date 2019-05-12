@@ -122,6 +122,10 @@ namespace GOSDataModel.Migrations
 
                     b.Property<string>("UserName")
                         .HasMaxLength(50);
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(50);
+                    b.Property<string>("LastName")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 

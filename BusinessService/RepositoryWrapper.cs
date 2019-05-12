@@ -11,9 +11,22 @@ namespace BusinessService
         private GOSContext Context;
         private IProductService _productService;
         private IOrderService _orderService;
+        private IAccountService _accountService;
         public RepositoryWrapper(GOSContext context)
         {
             Context = context;
+        }
+        public IAccountService AccountService
+        {
+            get
+            {
+                if(_accountService == null)
+                {
+                    _accountService = new AccountService(Context);
+                }
+                return _accountService;
+                
+            }
         }
         public IProductService ProductService
         {
