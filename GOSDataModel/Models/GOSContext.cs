@@ -27,8 +27,11 @@ namespace GOSDataModel.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
-                entity.Property(e => e.UserName).HasMaxLength(50);
-                entity.Property(e => e.PassWord).HasMaxLength(50);
+                entity.Property(e => e.PasswordHash).HasMaxLength(50);
+                entity.Property(e => e.FirstName).HasMaxLength(100);
+                entity.Property(e => e.LastName).HasMaxLength(100);
+                entity.Property(e => e.Email).HasMaxLength(100);
+                entity.Property(e => e.UserName).HasMaxLength(100);
             });
 
             modelBuilder.Entity<Product>(entity =>
@@ -63,6 +66,41 @@ namespace GOSDataModel.Models
                 entity.Property(e => e.Description).HasMaxLength(100);
 
                 entity.Property(e => e.SizeName).HasMaxLength(50);
+            });
+            modelBuilder.Entity<AspNetUserTokens>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
+
+                entity.Property(e => e.Name).HasMaxLength(128);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.AspNetUserTokens)
+                    .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<AspNetUsers>(entity =>
+            {
+                entity.HasIndex(e => e.NormalizedEmail)
+                    .HasName("EmailIndex");
+
+                entity.HasIndex(e => e.NormalizedUserName)
+                    .HasName("UserNameIndex")
+                    .IsUnique()
+                    .HasFilter("([NormalizedUserName] IS NOT NULL)");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Email).HasMaxLength(256);
+
+                entity.Property(e => e.FirstName).HasMaxLength(100);
+
+                entity.Property(e => e.LastName).HasMaxLength(100);
+
+                entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
+
+                entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
+
+                entity.Property(e => e.UserName).HasMaxLength(256);
             });
         }
     }

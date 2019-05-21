@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using BusinessService.Interface;
+using TOTURIAL_API.Helpers;
 
 namespace TOTURIAL_API.Controllers
 {
@@ -19,7 +20,7 @@ namespace TOTURIAL_API.Controllers
     public class AccountController : ControllerBase
     {
         private IRepositoryWrapper _repoWrapper;
-
+        private readonly AppSettings _appSettings;
         public AccountController(IRepositoryWrapper repoWrapper)
         {
             _repoWrapper = repoWrapper;
@@ -29,13 +30,13 @@ namespace TOTURIAL_API.Controllers
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody]User userDto)
         {
-            var user = _repoWrapper.AccountService.Authenticate(userDto.UserName, userDto.PassWord);
+            var user = _repoWrapper.AccountService.Authenticate(userDto.UserName, userDto.PasswordHash);
 
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var key = Encoding.ASCII.GetBytes("abc dad");
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -69,7 +70,7 @@ namespace TOTURIAL_API.Controllers
             try
             {
                 // save 
-                _repoWrapper.AccountService.Create(user, userDto.PassWord);
+                _repoWrapper.AccountService.Create(user, userDto.PasswordHash);
                 return Ok();
             }
             catch (Exception ex)
@@ -99,13 +100,14 @@ namespace TOTURIAL_API.Controllers
         public IActionResult Update(int id, [FromBody]User userDto)
         {
             // map dto to entity and set id
-            var user = _mapper.Map<User>(userDto);
+            //var user = _mapper.Map<User>(userDto);
+            var user = userDto;
             user.Id = id;
 
             try
             {
                 // save 
-                _repoWrapper.AccountService.Update(user, userDto.PassWord);
+                _repoWrapper.AccountService.Update(user);
                 return Ok();
             }
             catch (Exception ex)

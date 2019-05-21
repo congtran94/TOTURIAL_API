@@ -4,19 +4,34 @@ using GOSDataModel.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace BusinessService
 {
-    public class AccountService: Repository<AccountService>, IAccountService
+    public class AccountService: Repository<AspNetUsers>, IAccountService
     {
         public GOSContext Context;
         public AccountService(GOSContext _context) : base(_context)
         {
             Context = _context;
         }
-        public User Authenticate(string userName, string Password)
+        public User Authenticate(string userName, string password)
         {
-            return new User();
+            IEnumerable<AspNetUsers> users= Find(s => s.UserName == userName && s.PasswordHash == password).ToList();
+            if (users != null &&  users.Any())
+            {
+                var user  = users.FirstOrDefault();
+                return new User()
+                {
+                    UserName = user.UserName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    PasswordHash = user.PasswordHash
+                };
+            }
+                
+            return null;
         }
         public bool Create(User user, string Password)
         {
