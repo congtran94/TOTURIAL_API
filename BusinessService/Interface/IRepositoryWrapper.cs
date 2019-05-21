@@ -10,7 +10,6 @@ namespace BusinessService.Interface
         IProductService ProductService { get; }
         IOrderService OrderService { get; }
         IAccountService AccountService { get; }
-        IConfiguration Configuration { get; }
         void Save();
     }
 }
