@@ -11,7 +11,6 @@ namespace TOTURIAL_API.Helpers
         public string Secret { get; set; }
         public AppSettings()
         {
-            Secret = new Guid().ToString();
         }
 
     }

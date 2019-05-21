@@ -23,6 +23,7 @@ namespace BusinessService
                 var user  = users.FirstOrDefault();
                 return new User()
                 {
+                    Id  = user.Id,
                     UserName = user.UserName,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
@@ -35,6 +36,7 @@ namespace BusinessService
         }
         public bool Create(User user, string Password)
         {
+
             return true;
         }
         public IEnumerable<User> GetAll()

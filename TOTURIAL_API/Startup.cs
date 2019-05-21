@@ -15,7 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
+using TOTURIAL_API.Helpers;
 
 namespace TOTURIAL_API
 {
@@ -31,7 +31,9 @@ namespace TOTURIAL_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
             services.AddDbContext<GOSContext>(option=> option.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
             services.AddDefaultIdentity<IdentityUser>()

@@ -1,5 +1,6 @@
 ﻿using BusinessService.Interface;
 using GOSDataModel.Models;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,9 +13,11 @@ namespace BusinessService
         private IProductService _productService;
         private IOrderService _orderService;
         private IAccountService _accountService;
-        public RepositoryWrapper(GOSContext context)
+        private IConfiguration _configuration;
+        public RepositoryWrapper(GOSContext context, IConfiguration configuration)
         {
             Context = context;
+            _configuration = configuration;
         }
         public IAccountService AccountService
         {
@@ -50,7 +53,13 @@ namespace BusinessService
                 return _orderService;
             }
         }
-
+        public IConfiguration Configuration
+        {
+            get
+            {
+                return _configuration;
+            }
+        }
 
         public void Save()
         {

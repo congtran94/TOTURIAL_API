@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,6 +10,7 @@ namespace BusinessService.Interface
         IProductService ProductService { get; }
         IOrderService OrderService { get; }
         IAccountService AccountService { get; }
+        IConfiguration Configuration { get; }
         void Save();
     }
 }
