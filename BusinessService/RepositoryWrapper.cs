@@ -53,13 +53,6 @@ namespace BusinessService
                 return _orderService;
             }
         }
-        public IConfiguration Configuration
-        {
-            get
-            {
-                return _configuration;
-            }
-        }
 
         public void Save()
         {
