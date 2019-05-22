@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BusinessService.Interface;
 using GOSDataModel.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace TOTURIAL_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class ProductsController : ControllerBase
     {
         private IRepositoryWrapper _repoWrapper;
@@ -21,6 +23,7 @@ namespace TOTURIAL_API.Controllers
         }
         // GET: api/Products
         [HttpGet]
+        
         public ActionResult<IEnumerable<Product>> Get()
         {
             var products = _repoWrapper.ProductService.GetAndDoSomeThing();
