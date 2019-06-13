@@ -40,6 +40,10 @@ namespace TOTURIAL_API
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI(Microsoft.AspNetCore.Identity.UI.UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<GOSContext>();
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("EmployeeOnly", policy => policy.RequireClaim("EmployeeNumber"));
+            //});
             services.Configure<IdentityOptions>(option =>
             {
                 //Password setting

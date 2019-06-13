@@ -12,6 +12,5 @@ namespace TOTURIAL_API.Helpers
         public AppSettings()
         {
         }
-
     }
 }

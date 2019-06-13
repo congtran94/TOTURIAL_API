@@ -18,6 +18,7 @@ namespace TOTURIAL_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AccountController : ControllerBase
     {
         private IRepositoryWrapper _repoWrapper;
@@ -82,7 +83,7 @@ namespace TOTURIAL_API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-        [Authorize(Roles = "Admin")]
+      
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -98,6 +99,7 @@ namespace TOTURIAL_API.Controllers
            // var userDto = _mapper.Map<User>(user);
             return Ok(user);
         }
+        [HttpPut]
         public User Create(User user, string password)
         {
             // validation
