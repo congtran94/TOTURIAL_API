@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TOTURIAL_API.Models
 {
-    public partial class Product
+    public partial class ProductModel
     {
         public int Id { get; set; }
         public string ProductName { get; set; }

@@ -6,6 +6,7 @@ using BusinessService.Interface;
 using GOSDataModel.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 
 namespace TOTURIAL_API.Controllers
 {
@@ -14,10 +15,11 @@ namespace TOTURIAL_API.Controllers
     public class ProductsController : ControllerBase
     {
         private IRepositoryWrapper _repoWrapper;
-
-        public ProductsController(IRepositoryWrapper repoWrapper)
+        private IMapper _mapper;
+        public ProductsController(IRepositoryWrapper repoWrapper, IMapper mapper)
         {
             _repoWrapper = repoWrapper;
+            _mapper = mapper;
         }
         // GET: api/Products
         [HttpGet]
@@ -43,11 +45,12 @@ namespace TOTURIAL_API.Controllers
 
         // POST: api/Products
         [HttpPost]
-        public void Post([FromBody] Product value)
+        public void Post([FromBody] TOTURIAL_API.Models.ProductModel value)
         {
             if (value == null)
                 return;
-            _repoWrapper.ProductService.Add(value);
+            var model = _mapper.Map<GOSDataModel.Models.Product>(value);
+            _repoWrapper.ProductService.Add(model);
         }
 
         // PUT: api/Products/5

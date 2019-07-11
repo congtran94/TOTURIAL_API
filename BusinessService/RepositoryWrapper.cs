@@ -13,6 +13,7 @@ namespace BusinessService
         private IProductService _productService;
         private IOrderService _orderService;
         private IAccountService _accountService;
+        private ISendEmail _sendEmail;
         private IConfiguration _configuration;
         public RepositoryWrapper(GOSContext context, IConfiguration configuration)
         {
@@ -53,7 +54,17 @@ namespace BusinessService
                 return _orderService;
             }
         }
-
+        public ISendEmail SendEmail
+        {
+            get
+            {
+                if (_sendEmail == null)
+                {
+                    _sendEmail = new SendEmail();
+                }
+                return _sendEmail;
+            }
+        }
         public void Save()
         {
             Context.SaveChanges();

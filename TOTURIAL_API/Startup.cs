@@ -13,8 +13,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using BusinessService;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+
 using TOTURIAL_API.Helpers;
 
 namespace TOTURIAL_API
@@ -31,9 +33,16 @@ namespace TOTURIAL_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
+            var mappingConfig = new AutoMapper.MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+            AutoMapper.IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+            services.AddSingleton<ISendEmail, SendEmail>();
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
             services.AddDbContext<GOSContext>(option=> option.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
             services.AddDefaultIdentity<IdentityUser>()
