@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BusinessService;
 using BusinessService.Interface;
 using GOSDataModel.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -48,6 +49,10 @@ namespace TOTURIAL_API
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI(Microsoft.AspNetCore.Identity.UI.UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<GOSContext>();
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("EmployeeOnly", policy => policy.RequireClaim("EmployeeNumber"));
+            //});
             services.Configure<IdentityOptions>(option =>
             {
                 //Password setting
@@ -75,7 +80,7 @@ namespace TOTURIAL_API
                 option.SlidingExpiration = true;
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+            //services.AddSingleton<IAuthorizationHandler>
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
