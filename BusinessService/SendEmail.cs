@@ -20,6 +20,9 @@ namespace BusinessService
             _emailSettings = email;
             _hostingEv = hostingEv;
         }
+        public SendEmail()
+        {
+        }
         public async Task SendEmailAsync(string email, string subject, string message)
         {
             try

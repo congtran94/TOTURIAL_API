@@ -1,6 +1,8 @@
 ﻿using BusinessService.Interface;
 using GOSDataModel.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,15 +12,19 @@ namespace BusinessService
     public class RepositoryWrapper:IRepositoryWrapper
     {
         private GOSContext Context;
+        private EmailSettings EmailSetting;
         private IProductService _productService;
         private IOrderService _orderService;
         private IAccountService _accountService;
         private ISendEmail _sendEmail;
-        private IConfiguration _configuration;
-        public RepositoryWrapper(GOSContext context, IConfiguration configuration)
+        private IConfiguration Configuration;
+        IHostingEnvironment HostingEnvironment;
+        public RepositoryWrapper(GOSContext context, IConfiguration configuration, IOptions<EmailSettings> emailSettings, IHostingEnvironment hostingEv)
         {
             Context = context;
-            _configuration = configuration;
+            Configuration = configuration;
+            EmailSetting = emailSettings.Value;
+            HostingEnvironment = hostingEv;
         }
         public IAccountService AccountService
         {
@@ -60,7 +66,7 @@ namespace BusinessService
             {
                 if (_sendEmail == null)
                 {
-                    _sendEmail = new SendEmail();
+                    _sendEmail = new SendEmail(EmailSetting, HostingEnvironment);
                 }
                 return _sendEmail;
             }

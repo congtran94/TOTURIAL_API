@@ -8,6 +8,6 @@ namespace TOTURIAL_API.Models
     {
         public string Subject { get; set; }
         public string  Body { get; set; }
-        public string RecieveEmail { get; set; }
+        public string ReceiveEmail { get; set; }
     }
 }

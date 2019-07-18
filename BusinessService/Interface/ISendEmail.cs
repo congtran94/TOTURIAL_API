@@ -7,6 +7,6 @@ namespace BusinessService.Interface
 {
     public interface ISendEmail
     {
-        Task SendEmailAsync(string email, string subject, string message);
+        Task  SendEmailAsync(string email, string subject, string message);
     }
 }

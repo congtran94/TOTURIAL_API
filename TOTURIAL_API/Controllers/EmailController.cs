@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BusinessService;
 using BusinessService.Interface;
+using GOSDataModel.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -15,16 +17,18 @@ namespace TOTURIAL_API.Controllers
     public class EmailController : ControllerBase
     {
         private IRepositoryWrapper _repoWrapper;
+        private readonly EmailSettings _emailSettings;
         
-        public EmailController(IRepositoryWrapper repoWrapper)
+        public EmailController(IRepositoryWrapper repoWrapper,IOptions<EmailSettings> emailSettings)
         {
             _repoWrapper = repoWrapper;
+            _emailSettings = emailSettings.Value;
         }
-        [HttpGet]
-        public async Action SendEmail([FromBody] EmailInfo email)
+        [HttpPost]
+        public ActionResult SendEmail([FromBody] EmailInfo email)
         {
-            Task sendEmail = _repoWrapper.
-            return true;
+            Task sendEmail =  _repoWrapper.SendEmail.SendEmailAsync(email.ReceiveEmail, email.Subject, email.Body);
+            return Ok();
         }
     }
 }
