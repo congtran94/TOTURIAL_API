@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using BusinessService.Interface;
 using TOTURIAL_API.Helpers;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Cors;
 
 namespace TOTURIAL_API.Controllers
 {
@@ -28,7 +29,7 @@ namespace TOTURIAL_API.Controllers
             _repoWrapper = repoWrapper;
             _appSettings = appSettings.Value;
         }
-
+        [EnableCors("AllowOrigins")]
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody]User userDto)

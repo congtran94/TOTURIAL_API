@@ -80,6 +80,14 @@ namespace TOTURIAL_API
                 option.SlidingExpiration = true;
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddCors(options => {
+                options.AddPolicy("AllowOrigins", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
             //services.AddSingleton<IAuthorizationHandler>
         }
 
@@ -99,6 +107,7 @@ namespace TOTURIAL_API
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseHttpsRedirection();
+            app.UseCors("AllowOrigins");
             app.UseMvc();
         }
     }
