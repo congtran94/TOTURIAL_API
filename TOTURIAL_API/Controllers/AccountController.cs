@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -9,32 +8,36 @@ using GOSDataModel.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using BusinessService.Interface;
 using TOTURIAL_API.Helpers;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Cors;
+using TOTURIAL_API.Models;
+using AutoMapper;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
 
 namespace TOTURIAL_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class AccountController : ControllerBase
     {
         private IRepositoryWrapper _repoWrapper;
         private readonly AppSettings _appSettings;
-        public AccountController(IRepositoryWrapper repoWrapper, IOptions<AppSettings> appSettings)
+        private IMapper _mapper;
+        public AccountController(IRepositoryWrapper repoWrapper, IOptions<AppSettings> appSettings, IMapper mapper)
         {
             _repoWrapper = repoWrapper;
             _appSettings = appSettings.Value;
+            _mapper = mapper;
         }
         [EnableCors("AllowOrigins")]
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody]User userDto)
+        public IActionResult Authenticate([FromBody]LoginModel userLogin)
         {
-            var user = _repoWrapper.AccountService.Authenticate(userDto.UserName, userDto.PasswordHash);
+            var user = _repoWrapper.AccountService.Authenticate(userLogin.UserName, userLogin.PassWord);
 
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -57,25 +60,24 @@ namespace TOTURIAL_API.Controllers
             // return basic user info (without password) and token to store client side
             return Ok(new
             {
-                Id = user.Id,
                 Username = user.UserName,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
                 Token = tokenString
             });
         }
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult Register([FromBody]User userDto)
+        public IActionResult Register([FromBody]UserModel userRegiter)
         {
             // map dto to entity
-            //var user = _mapper.Map<User>(userDto);
-            var user = userDto;
+            if(userRegiter == null || string.IsNullOrEmpty(userRegiter.UserName))
+                return  BadRequest(new { message = "Username or password is incorrect" });
+            var user = _mapper.Map<User>(userRegiter);
+            //var user = userRegiter;
             try
             {
                 // save 
-                _repoWrapper.AccountService.Create(user, userDto.PasswordHash);
+                _repoWrapper.AccountService.Create(user);
                 return Ok();
             }
             catch (Exception ex)
@@ -100,22 +102,7 @@ namespace TOTURIAL_API.Controllers
            // var userDto = _mapper.Map<User>(user);
             return Ok(user);
         }
-        [HttpPut]
-        public User Create(User user, string password)
-        {
-            // validation
-            if (string.IsNullOrWhiteSpace(user.PasswordHash))
-                return null;
-           
-
-            byte[] passwordHash, passwordSalt;
-            CreatePasswordHash(password, out passwordHash, out passwordSalt);
-
-           
-
-            _repoWrapper.AccountService.Create(user, password);
-            return user;
-        }
+      
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]User userDto)
         {
@@ -143,16 +130,6 @@ namespace TOTURIAL_API.Controllers
             _repoWrapper.AccountService.Delete(id);
             return Ok();
         }
-        private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            if (password == null) throw new ArgumentNullException("password");
-            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
-
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
+        
     }
 }

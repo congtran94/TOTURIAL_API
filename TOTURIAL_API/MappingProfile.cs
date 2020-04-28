@@ -13,10 +13,12 @@ namespace TOTURIAL_API
     {
         public MappingProfile()
         {
-            CreateMap<GOSDataModel.Models.Order,Models.Order>();
-            CreateMap<Models.Order, GOSDataModel.Models.Order>();
+            CreateMap<GOSDataModel.Models.Order,Models.OrderModel>();
+            CreateMap<Models.OrderModel, GOSDataModel.Models.Order>();
             CreateMap<GOSDataModel.Models.Product, Models.ProductModel>();
             CreateMap<Models.ProductModel, GOSDataModel.Models.Product>();
+            CreateMap<Models.UserModel, GOSDataModel.Models.AspNetUsers>();
+            CreateMap<GOSDataModel.Models.AspNetUsers, Models.UserModel>();
         }
     }
 }

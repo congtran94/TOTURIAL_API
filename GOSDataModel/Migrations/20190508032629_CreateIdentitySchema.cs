@@ -91,7 +91,7 @@ namespace GOSDataModel.Migrations
                     Id = table.Column<int>(nullable: false),
                     Email = table.Column<string>(nullable: true),
                     UserName = table.Column<string>(maxLength: 50, nullable: true),
-                    PassWord = table.Column<string>(maxLength: 50, nullable: true)
+                    PassWordHash = table.Column<string>(maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {

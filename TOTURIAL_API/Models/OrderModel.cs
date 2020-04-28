@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TOTURIAL_API.Models
 {
-    public partial class Order
+    public partial class OrderModel
     {
         public int Id { get; set; }
         public int? CustomerId { get; set; }

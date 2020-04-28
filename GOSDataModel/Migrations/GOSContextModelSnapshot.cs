@@ -117,7 +117,7 @@ namespace GOSDataModel.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<string>("PassWord")
+                    b.Property<string>("PassWordHash")
                         .HasMaxLength(50);
 
                     b.Property<string>("UserName")

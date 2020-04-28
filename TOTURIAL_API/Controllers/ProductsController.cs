@@ -13,7 +13,7 @@ namespace TOTURIAL_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
+    [Authorize]
     public class ProductsController : ControllerBase
     {
         private IRepositoryWrapper _repoWrapper;

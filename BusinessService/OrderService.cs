@@ -9,7 +9,6 @@ namespace BusinessService
 {
     public class OrderService : Repository<Order>, IOrderService 
     {
-        public GOSContext Context;
         public OrderService(GOSContext _context) : base(_context)
         {
             Context = _context;

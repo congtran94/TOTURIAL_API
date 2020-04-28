@@ -14,11 +14,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using BusinessService;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using TOTURIAL_API.Helpers;
+using Microsoft.Extensions.Hosting;
 
 namespace TOTURIAL_API
 {
@@ -46,13 +46,21 @@ namespace TOTURIAL_API
             services.AddSingleton<ISendEmail, SendEmail>();
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
             services.AddDbContext<GOSContext>(option=> option.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddDefaultUI(Microsoft.AspNetCore.Identity.UI.UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<GOSContext>();
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("EmployeeOnly", policy => policy.RequireClaim("EmployeeNumber"));
-            //});
+
+            //services.AddDefaultIdentity<IdentityUser>(
+            //     options => options.SignIn.RequireConfirmedAccount = true)
+            //.AddEntityFrameworkStores<GOSContext>();
+
+            //services.AddIdentityCore<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //        .AddEntityFrameworkStores<GOSContext>();
+            //services.AddIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<GOSContext>();
+            services.AddAuthorization(options =>
+            {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                  .RequireAuthenticatedUser()
+                  .Build();
+            });
             services.Configure<IdentityOptions>(option =>
             {
                 //Password setting
@@ -79,7 +87,7 @@ namespace TOTURIAL_API
                 option.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 option.SlidingExpiration = true;
             });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddCors(options => {
                 options.AddPolicy("AllowOrigins", builder =>
                 {
@@ -92,23 +100,23 @@ namespace TOTURIAL_API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseHttpsRedirection();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute().RequireAuthorization();
+                endpoints.MapRazorPages();
+            });
             app.UseCors("AllowOrigins");
-            app.UseMvc();
         }
     }
 }

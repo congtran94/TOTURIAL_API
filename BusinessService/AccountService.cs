@@ -10,14 +10,13 @@ namespace BusinessService
 {
     public class AccountService: Repository<AspNetUsers>, IAccountService
     {
-        public GOSContext Context;
         public AccountService(GOSContext _context) : base(_context)
         {
             Context = _context;
         }
         public User Authenticate(string userName, string password)
         {
-            IEnumerable<AspNetUsers> users= Find(s => s.UserName == userName && s.PasswordHash == password).ToList();
+            IEnumerable<AspNetUsers> users= Find(s => s.UserName == userName && s.PasswordHash == password);
             if (users != null &&  users.Any())
             {
                 var user  = users.FirstOrDefault();
@@ -31,14 +30,31 @@ namespace BusinessService
                     PasswordHash = user.PasswordHash
                 };
             }
-                
             return null;
         }
-        public bool Create(User user, string Password)
+        public bool Create(User user)
         {
+            if (string.IsNullOrWhiteSpace(user.PasswordHash))
+                return false;
+            byte[] passwordHash, passwordSalt;
+            CreatePasswordHash(user.PasswordHash, out passwordHash, out passwordSalt);
 
             return true;
         }
+
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            if (password == null) throw new ArgumentNullException("password");
+            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+        
+
         public IEnumerable<User> GetAll()
         {
             return new List<User>();
