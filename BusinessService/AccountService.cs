@@ -38,7 +38,7 @@ namespace BusinessService
                 return false;
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(user.PasswordHash, out passwordHash, out passwordSalt);
-
+            user.PasswordHash = Encoding.UTF8.GetString(passwordHash, 0, passwordHash.Length);
             return true;
         }
 

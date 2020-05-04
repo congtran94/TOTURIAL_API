@@ -21,16 +21,17 @@ namespace TOTURIAL_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowOrigins")]
     public class AccountController : ControllerBase
     {
         private IRepositoryWrapper _repoWrapper;
         private readonly AppSettings _appSettings;
         private IMapper _mapper;
-        public AccountController(IRepositoryWrapper repoWrapper, IOptions<AppSettings> appSettings, IMapper mapper)
+        public AccountController(IRepositoryWrapper repoWrapper, IOptions<AppSettings> appSettings/*, IMapper mapper*/)
         {
             _repoWrapper = repoWrapper;
             _appSettings = appSettings.Value;
-            _mapper = mapper;
+            //_mapper = mapper;
         }
         [EnableCors("AllowOrigins")]
         [AllowAnonymous]
@@ -49,7 +50,9 @@ namespace TOTURIAL_API.Controllers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim( ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim( ClaimTypes.Role, "Admin")
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -60,7 +63,6 @@ namespace TOTURIAL_API.Controllers
             // return basic user info (without password) and token to store client side
             return Ok(new
             {
-                Username = user.UserName,
                 Token = tokenString
             });
         }
