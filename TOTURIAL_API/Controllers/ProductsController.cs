@@ -8,12 +8,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 
 namespace TOTURIAL_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [EnableCors("AllowOrigins")]
     public class ProductsController : ControllerBase
     {
         private IRepositoryWrapper _repoWrapper;
