@@ -12,7 +12,7 @@ using BusinessService.Interface;
 using TOTURIAL_API.Helpers;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Cors;
-using TOTURIAL_API.Models;
+using BusinessService.Models;
 using AutoMapper;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;

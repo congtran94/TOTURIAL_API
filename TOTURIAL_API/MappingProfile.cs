@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TOTURIAL_API.Models;
+using BusinessService.Models;
 using GOSDataModel.Models;
 
 
@@ -13,12 +13,12 @@ namespace TOTURIAL_API
     {
         public MappingProfile()
         {
-            CreateMap<GOSDataModel.Models.Order,Models.OrderModel>();
-            CreateMap<Models.OrderModel, GOSDataModel.Models.Order>();
-            CreateMap<GOSDataModel.Models.Product, Models.ProductModel>();
-            CreateMap<Models.ProductModel, GOSDataModel.Models.Product>();
-            CreateMap<Models.UserModel, GOSDataModel.Models.AspNetUsers>();
-            CreateMap<GOSDataModel.Models.AspNetUsers, Models.UserModel>();
+            CreateMap<Order,Models.OrderModel>();
+            CreateMap<Models.OrderModel,Order>();
+            CreateMap<Product, ProductModel>();
+            CreateMap<ProductModel,Product>();
+            CreateMap<UserModel, AspNetUsers>();
+            CreateMap<AspNetUsers, UserModel>();
         }
     }
 }

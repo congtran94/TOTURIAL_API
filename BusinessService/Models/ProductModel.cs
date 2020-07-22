@@ -1,7 +1,8 @@
-﻿using System;
+﻿using GOSDataModel.Models;
+using System;
 using System.Collections.Generic;
 
-namespace TOTURIAL_API.Models
+namespace BusinessService.Models
 {
     public partial class ProductModel
     {
@@ -17,6 +18,19 @@ namespace TOTURIAL_API.Models
         public string ImageUrl { get; set; }
         public string SizeId { get; set; }
         public string ColorId { get; set; }
+    }
+    public class PagingModel
+    {
+        public int CategoryId { get; set; }
+        public int PageIndex { get; set; }
+        public int TotalPage { get; set; }
+        public int PageSize { get; set; }
+    }
+    public class ProductHome
+    {
+        public List<Product> Kitchens { get; set; }
+        public List<Product> Accessories { get; set; }
+        public List<Product> Other { get; set; }
     }
    
 }

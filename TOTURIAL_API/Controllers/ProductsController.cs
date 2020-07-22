@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using BusinessService.Interface;
 using GOSDataModel.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using Microsoft.AspNetCore.Cors;
+using BusinessService.Models;
 
 namespace TOTURIAL_API.Controllers
 {
@@ -24,32 +24,37 @@ namespace TOTURIAL_API.Controllers
             _repoWrapper = repoWrapper;
             _mapper = mapper;
         }
-        // GET: api/Products
-        [HttpGet]
-        
+        [HttpGet("gethome")]
         public ActionResult<IEnumerable<Product>> Get()
         {
-            var products = _repoWrapper.ProductService.GetAndDoSomeThing();
+            var products = _repoWrapper.ProductService.GetHomePage();
             if(products.Any())
             {
                 return Ok(products);
             }
-            return NotFound();
+            return NoContent();
         }
-
-        // GET: api/Products/5
         [HttpGet("{id}", Name = "Get")]
         public ActionResult<Product> Get(int id)
         {
             if (id < 0)
                 return NotFound();
-            var product = _repoWrapper.ProductService.Find(s => s.Id == id).FirstOrDefault();
+            var product = _repoWrapper.ProductService.GetById(id);
             return Ok(product);
         }
-
+        [HttpGet("getcategory")]
+        public ActionResult<IEnumerable<Product>> GetByCategory(PagingModel paging)
+        {
+            if (paging.CategoryId < 0)
+                return NotFound();
+            var products = _repoWrapper.ProductService.GetByCategoryId(paging.CategoryId, paging.PageIndex * paging.PageSize, paging.PageSize);
+            if(products != null && products.Any())
+                return Ok(products);
+            return NoContent();
+        }
         // POST: api/Products
         [HttpPost]
-        public void Post([FromBody] TOTURIAL_API.Models.ProductModel value)
+        public void Post([FromBody] ProductModel value)
         {
             if (value == null)
                 return;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TOTURIAL_API.Models
+namespace BusinessService.Models
 {
     public partial class UserModel
     {
