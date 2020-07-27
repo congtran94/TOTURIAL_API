@@ -17,6 +17,7 @@ namespace GOSDataModel.Models
         public string ImageUrl { get; set; }
         public string SizeId { get; set; }
         public string ColorId { get; set; }
+        public string TopHot { get; set; }
     }
    
 }

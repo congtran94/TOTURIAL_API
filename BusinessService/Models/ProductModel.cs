@@ -18,6 +18,7 @@ namespace BusinessService.Models
         public string ImageUrl { get; set; }
         public string SizeId { get; set; }
         public string ColorId { get; set; }
+        public string CategoryName { get; set; }
     }
     public class PagingModel
     {

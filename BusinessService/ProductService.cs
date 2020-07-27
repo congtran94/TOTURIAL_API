@@ -28,23 +28,8 @@ namespace BusinessService
 
 		public IEnumerable<Product> GetHomePage()
 		{
-			IEnumerable<Product> allProducts = Context.Product.OrderBy(s => s.CategoryId).ToList();
-			int PageSize = 8;
-			if (allProducts != null && allProducts.Any())
-			{
-				List<int> distinctCatrgory = allProducts.Select(s => s.CategoryId).Distinct().ToList();
-				List<Product> products = new List<Product>();
-				if (distinctCatrgory.Any())
-				{
-					distinctCatrgory.ForEach(s =>
-					{
-						var top = allProducts.Where(p => p.CategoryId == s).Take(PageSize);
-						products.AddRange(top);
-					});
-				}
-				return products;
-			}
-			return allProducts;
+			IEnumerable<Product> allProducts = Context.Product.OrderBy(s => s.TopHot).Take(8).ToList();
+			 return allProducts;
 		}
 	}
 }
