@@ -4,34 +4,22 @@ using GOSDataModel.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GOSDataModel.Migrations
 {
     [DbContext(typeof(GOSContext))]
-    partial class GOSContextModelSnapshot : ModelSnapshot
+    [Migration("20200728132702_Dokodemo")]
+    partial class Dokodemo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.0-preview3-35497")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("GOSDataModel.Models.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Category");
-                });
 
             modelBuilder.Entity("GOSDataModel.Models.Color", b =>
                 {
@@ -100,6 +88,9 @@ namespace GOSDataModel.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ColorId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
@@ -116,21 +107,19 @@ namespace GOSDataModel.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<int?>("SizeId")
-                        .HasColumnType("int");
+                    b.Property<string>("SizeId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TopHot")
-                        .HasColumnType("int");
+                    b.Property<string>("TopHot")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UrlImage")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.ToTable("Product");
                 });
@@ -213,15 +202,6 @@ namespace GOSDataModel.Migrations
                     b.HasOne("GOSDataModel.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId");
-                });
-
-            modelBuilder.Entity("GOSDataModel.Models.Product", b =>
-                {
-                    b.HasOne("GOSDataModel.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("GOSDataModel.Models.ProductColor", b =>

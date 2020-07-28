@@ -4,14 +4,16 @@ using GOSDataModel.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GOSDataModel.Migrations
 {
     [DbContext(typeof(GOSContext))]
-    partial class GOSContextModelSnapshot : ModelSnapshot
+    [Migration("20200728133240_Dokodemo1")]
+    partial class Dokodemo1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,6 +102,9 @@ namespace GOSDataModel.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ColorId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
@@ -116,14 +121,14 @@ namespace GOSDataModel.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<int?>("SizeId")
-                        .HasColumnType("int");
+                    b.Property<string>("SizeId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TopHot")
-                        .HasColumnType("int");
+                    b.Property<string>("TopHot")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UrlImage")
                         .HasColumnType("nvarchar(max)");

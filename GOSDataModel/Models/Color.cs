@@ -7,5 +7,6 @@ namespace GOSDataModel.Models
     {
         public int Id { get; set; }
         public string ColorName { get; set; }
+        public IList<ProductColor> ProductColor { get; set; }
     }
 }

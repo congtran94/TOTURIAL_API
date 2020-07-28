@@ -4,14 +4,16 @@ using GOSDataModel.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GOSDataModel.Migrations
 {
     [DbContext(typeof(GOSContext))]
-    partial class GOSContextModelSnapshot : ModelSnapshot
+    [Migration("20200728144024_Dokodemo4")]
+    partial class Dokodemo4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

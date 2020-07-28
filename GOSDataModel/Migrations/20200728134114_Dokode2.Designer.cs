@@ -4,14 +4,16 @@ using GOSDataModel.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GOSDataModel.Migrations
 {
     [DbContext(typeof(GOSContext))]
-    partial class GOSContextModelSnapshot : ModelSnapshot
+    [Migration("20200728134114_Dokode2")]
+    partial class Dokode2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,13 +118,13 @@ namespace GOSDataModel.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<int?>("SizeId")
+                    b.Property<int>("SizeId")
                         .HasColumnType("int");
 
                     b.Property<int?>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TopHot")
+                    b.Property<int>("TopHot")
                         .HasColumnType("int");
 
                     b.Property<string>("UrlImage")

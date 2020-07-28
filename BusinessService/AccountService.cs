@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace BusinessService
 {
-    public class AccountService: Repository<AspNetUsers>, IAccountService
+    public class AccountService: Repository<User>, IAccountService
     {
         public AccountService(GOSContext _context) : base(_context)
         {
@@ -16,7 +16,7 @@ namespace BusinessService
         }
         public User Authenticate(string userName, string password)
         {
-            IEnumerable<AspNetUsers> users= Find(s => s.UserName == userName && s.PasswordHash == password);
+            IEnumerable<User> users= Find(s => s.UserName == userName && s.PasswordHash == password);
             if (users != null &&  users.Any())
             {
                 var user  = users.FirstOrDefault();
