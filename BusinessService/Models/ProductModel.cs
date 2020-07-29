@@ -7,7 +7,7 @@ namespace BusinessService.Models
     public partial class ProductModel
     {
         public int Id { get; set; }
-        public string ProductName { get; set; }
+        public string Name { get; set; }
         public int CategoryId { get; set; }
         public string Description { get; set; }
         public string Price { get; set; }
@@ -19,6 +19,7 @@ namespace BusinessService.Models
         public string SizeId { get; set; }
         public string ColorId { get; set; }
         public string CategoryName { get; set; }
+        public bool TopHot { get; set; }
     }
     public class PagingModel
     {

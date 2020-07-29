@@ -25,7 +25,7 @@ namespace TOTURIAL_API.Controllers
             _mapper = mapper;
         }
         [HttpGet("gethome")]
-        public ActionResult<IEnumerable<Product>> Get()
+        public ActionResult<IEnumerable<ProductModel>> Get()
         {
             var products = _repoWrapper.ProductService.GetHomePage();
             if(products.Any())
@@ -35,7 +35,7 @@ namespace TOTURIAL_API.Controllers
             return NoContent();
         }
         [HttpGet("{id}", Name = "Get")]
-        public ActionResult<Product> Get(int id)
+        public ActionResult<ProductModel> Get(int id)
         {
             if (id < 0)
                 return NotFound();
@@ -43,7 +43,7 @@ namespace TOTURIAL_API.Controllers
             return Ok(product);
         }
         [HttpGet("getcategory")]
-        public ActionResult<IEnumerable<Product>> GetByCategory(PagingModel paging)
+        public ActionResult<IEnumerable<ProductModel>> GetByCategory(PagingModel paging)
         {
             if (paging.CategoryId < 0)
                 return NotFound();
