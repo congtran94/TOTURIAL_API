@@ -18,6 +18,7 @@ namespace GOSDataModel.Models
         public virtual DbSet<Color> Color { get; set; }
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<OrderDetail> OrderDetail { get; set; }
+        public virtual DbSet<ProductColor> ProductColor { get; set; }
         public virtual DbSet<Size> Size { get; set; }
         public virtual DbSet<User> User { get; set; }
 

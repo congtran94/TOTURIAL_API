@@ -35,7 +35,7 @@ namespace TOTURIAL_API.Controllers
             return NoContent();
         }
         [HttpGet("{id}", Name = "Get")]
-        public ActionResult<ProductModel> Get(int id)
+        public ActionResult<ProductDetail> Get(int id)
         {
             if (id < 0)
                 return NotFound();

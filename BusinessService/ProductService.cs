@@ -29,14 +29,13 @@ namespace BusinessService
 				Price = s.Price,
 				Status = s.Status,
 				ImageUrl = s.UrlImage,
-				Discount = s.Discount,
 				TopHot = s.TopHot == 1
 			}).ToList();
 		}
 
-		public ProductModel GetById(int Id)
+		public ProductDetail GetById(int Id)
 		{
-			return Context.Product.Select(s => new ProductModel()
+			ProductDetail productDetail = Context.Product.Select(s => new ProductDetail()
 			{
 				Id = s.Id,
 				Name = s.Name,
@@ -46,9 +45,20 @@ namespace BusinessService
 				Price = s.Price,
 				Status = s.Status,
 				ImageUrl = s.UrlImage,
-				Discount = s.Discount,
 				TopHot = s.TopHot == 1
 			}).FirstOrDefault(s => s.Id == Id);
+			if(productDetail!= null)
+			{
+				productDetail.ProductColors = Context.ProductColor.Where(s => s.ProductId == Id).ToList();
+				productDetail.RelateProducts = Context.Product.Where(s => s.CategoryId == productDetail.CategoryId && s.Id != Id).Select(s=>  new ProductModel {
+					Id = s.Id,
+					Name = s.Name,
+					CategoryId = s.CategoryId,
+					Price = s.Price,
+					ImageUrl = s.UrlImage,
+				}) .Take(4).ToList();
+			}	
+			return productDetail;
 		}
 
 		public IEnumerable<ProductModel> GetHomePage()
@@ -63,7 +73,6 @@ namespace BusinessService
 				Price = s.Price,
 				Status =s.Status,
 				ImageUrl =s.UrlImage,
-				Discount =s.Discount,
 				TopHot = s.TopHot == 1
 			}).Where(p => p.TopHot == true).Take(8).ToList();
 			return allProducts;

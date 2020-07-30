@@ -11,6 +11,6 @@ namespace BusinessService.Interface
     {
         IEnumerable<ProductModel> GetHomePage();
         IEnumerable<ProductModel> GetByCategoryId(int categoryId, int skip, int take);
-        ProductModel GetById(int Id);
+        ProductDetail GetById(int Id);
     }
 }
